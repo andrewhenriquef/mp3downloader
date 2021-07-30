@@ -10,21 +10,21 @@ class YoutubeDlWrapperService
     file_path
   end
 
-  def download_mp3!
-    `youtube-dl #{audio_configurations} #{output} #{youtube_url}`
-  end
-
   def file_name
     @file_name ||= `youtube-dl --get-title #{youtube_url}`.strip + '.mp3'
   end
 
   def file_path
-    "#{MUSICS_PATH}/#{file_name}"
+    @file_path ||= "#{MUSICS_PATH}/#{file_name}"
   end
 
   private
 
   attr_reader :youtube_url
+
+  def download_mp3!
+    `youtube-dl #{audio_configurations} #{output} #{youtube_url}`
+  end
 
   def output
     "--output '#{MUSICS_PATH}/%(title)s-%(id)s.%(ext)s'"

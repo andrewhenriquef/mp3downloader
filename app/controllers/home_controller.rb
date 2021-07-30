@@ -2,7 +2,23 @@ class HomeController < ApplicationController
   def index; end
 
   def download
-    binding.pry
+    service = YoutubeDlWrapperService.new(
+      youtube_url: allowed_parameters[:youtube_url]
+    )
+
+    service.download
+
+    file_name = service.file_name
+    file_path = service.file_path
+
+    File.open(file_path) do |music_file|
+      ActionCable.server.broadcast(
+        "download_music_channel_#{uuid}",
+        music: music_file,
+        file_name: file_name,
+        content_type: 'audio/mpeg'
+      )
+    end
   end
 
   private
