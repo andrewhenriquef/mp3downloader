@@ -7,7 +7,14 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import { v4 as uuidv4 } from 'uuid';
+import 'bootstrap'
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+$("#download_music_form").on('submit', function (event) {
+  alert( "Handler for .submit() called." );
+  event.preventDefault();
+});
