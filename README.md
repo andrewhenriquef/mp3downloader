@@ -5,20 +5,25 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+### Ruby version
+2.7.4
 
-* System dependencies
+### System dependencies
+python3
 
-* Configuration
+pip3
 
-* Database creation
+youtube-dl
 
-* Database initialization
+### onfiguration
+Setup your aws, postgres and redis credentials
 
-* How to run the test suite
+### Database creation
 
-* Services (job queues, cache servers, search engines, etc.)
+Nothing is saved in database, but rails requires a database
 
-* Deployment instructions
+rails db:create db:migrate
 
-* ...
+
+website to download musics from youtube: https://mp3downloader13.herokuapp.com/
+
