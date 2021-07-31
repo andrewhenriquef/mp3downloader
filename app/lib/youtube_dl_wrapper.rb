@@ -1,4 +1,4 @@
-class YoutubeDlWrapperService
+class YoutubeDlWrapper
   MUSICS_PATH = Rails.root.join('tmp', 'musics').to_s.freeze
 
   def initialize(youtube_url:)
@@ -11,7 +11,7 @@ class YoutubeDlWrapperService
   end
 
   def file_name
-    @file_name ||= `youtube-dl --get-title #{youtube_url}`.strip + '.mp3'
+    @file_name ||= `youtube-dl --get-title #{youtube_url}`.strip.gsub('/', '_') + '.mp3'
   end
 
   def file_path
@@ -27,7 +27,7 @@ class YoutubeDlWrapperService
   end
 
   def output
-    "--output '#{MUSICS_PATH}/%(title)s-%(id)s.%(ext)s'"
+    "--output '#{MUSICS_PATH}/%(title)s.%(ext)s'"
   end
 
   def audio_configurations
