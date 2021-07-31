@@ -12,19 +12,37 @@ class DownloadMusicChannel < ApplicationCable::Channel
 
     Rails.logger.info("#{params[:uuid]}: Received request to dowload music!: #{youtube_url}")
 
-    file_name, file_path = download_music_from_youtube(youtube_url)
+    music_name, music_url = file_download(youtube_url)
 
-    Rails.logger.info("#{params[:uuid]}: Music file: #{file_name} downloaded locally!")
+    broadcast_download(music_url, music_name)
 
-    music_url = upload_mp3_file_to_aws(file_name, file_path)
+    Rails.logger.info("#{params[:uuid]}: Sent file through websocket: #{music_name}!")
+  end
 
-    Rails.logger.info("#{params[:uuid]}: Music file: #{file_name} uploaded to aws!")
-
+  def broadcast_download(music_url, music_name)
     ActionCable.server.broadcast(
       "download_music_channel_#{params[:uuid]}",
       music_url: music_url,
-      music_name: file_name
+      music_name: music_name
     )
+  end
+
+  def file_download(youtube_url)
+    Rails.cache.fetch(youtube_url) do
+      file_name, file_path = download_music_from_youtube(youtube_url)
+
+      Rails.logger.info("#{params[:uuid]}: Music file: #{file_name} downloaded locally!")
+
+      music_url = upload_mp3_file_to_aws(file_name, file_path)
+
+      Rails.logger.info("#{params[:uuid]}: Music file: #{file_name} uploaded to aws!")
+
+      File.delete(file_path) if File.exist?(file_path)
+
+      Rails.logger.info("#{params[:uuid]}: Delete file locally: #{file_name}")
+
+      [file_name, music_url]
+    end
   end
 
   def download_music_from_youtube(youtube_url)
