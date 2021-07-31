@@ -13,7 +13,11 @@
         </div>
 
         <div class="form-group">
-          <%= submit_tag 'Baixar música', class: 'btn btn-primary btn-lg' %>
+          <%= button_tag 'Download', class: 'btn btn-primary btn-lg d-inline-flex', id: 'submit-btn', type: 'submit' do %>
+            <span class="m-1">Baixar música</span>
+            <div id="spinning" class="spinner-border text-light d-none"></div>
+          <% end %>
+          <%#= submit_tag 'Baixar música', class: 'btn btn-primary btn-lg', id: 'submit-btn' %>
         </div>
       <% end %>
     </div>

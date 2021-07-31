@@ -13,8 +13,7 @@ $(document).ready(function () {
     },
 
     received(data) {
-      console.log(data);
-
+      // send file to user
       var element = document.createElement('a');
       element.setAttribute('href', data.music_url);
       element.setAttribute('download', data.music_name);
@@ -25,11 +24,21 @@ $(document).ready(function () {
 
       console.log(element);
       document.body.removeChild(element);
+
+      // enable download
+      $('#youtube_url_text_field').val('');
+      $('#submit-btn').removeClass('disabled');
+      $('#spinning').addClass('d-none');
     }
   });
 
   $('#download_music_form').submit(function(event){
     event.preventDefault();
     downloadMusicChannel.send({ youtube_url: $('#youtube_url_text_field').val() });
+
+    // disable download
+    $('#submit-btn').addClass('disabled');
+    $('#spinning').removeClass('d-none');
+    return false;
   });
 });
