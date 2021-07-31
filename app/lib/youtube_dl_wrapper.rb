@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class YoutubeDlWrapper
   MUSICS_PATH = Rails.root.join('tmp', 'musics').to_s.freeze
 
