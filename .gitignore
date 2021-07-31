@@ -13,6 +13,10 @@
 !/log/.keep
 !/tmp/.keep
 
+
+!/tmp/musics/.keep
+!/tmp/musics/
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/
