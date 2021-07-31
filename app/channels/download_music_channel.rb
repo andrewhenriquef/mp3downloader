@@ -10,6 +10,11 @@ class DownloadMusicChannel < ApplicationCable::Channel
   def receive(data)
     youtube_url = data['youtube_url']
 
+    unless url_is_valid?(youtube_url)
+      Rails.logger.info("#{params[:uuid]}: url invalid for: #{youtube_url}")
+      return
+    end
+
     Rails.logger.info("#{params[:uuid]}: Received request to dowload music!: #{youtube_url}")
 
     music_name, music_url = file_download(youtube_url)
@@ -25,6 +30,11 @@ class DownloadMusicChannel < ApplicationCable::Channel
       music_url: music_url,
       music_name: music_name
     )
+  end
+
+  def url_is_valid?(youtube_url)
+    regex = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
+    youtube_url.match?(regex)
   end
 
   def file_download(youtube_url)
