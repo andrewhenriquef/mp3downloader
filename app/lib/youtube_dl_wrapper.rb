@@ -2,6 +2,7 @@
 
 class YoutubeDlWrapper
   MUSICS_PATH = Rails.root.join('tmp', 'musics').to_s.freeze
+  YOUTUBE_DL = 'bin/youtube-dl'.freeze
 
   def initialize(youtube_url:)
     @youtube_url = youtube_url
@@ -13,7 +14,7 @@ class YoutubeDlWrapper
   end
 
   def file_name
-    @file_name ||= `youtube-dl --get-title #{youtube_url}`.strip.gsub('/', '_') + '.mp3'
+    @file_name ||= `#{YOUTUBE_DL} --get-title #{youtube_url}`.strip.gsub('/', '_') + '.mp3'
   end
 
   def file_path
@@ -25,7 +26,7 @@ class YoutubeDlWrapper
   attr_reader :youtube_url
 
   def download_mp3!
-    `youtube-dl #{audio_configurations} #{output} #{youtube_url}`
+    `#{YOUTUBE_DL} #{audio_configurations} #{output} #{youtube_url}`
   end
 
   def output
