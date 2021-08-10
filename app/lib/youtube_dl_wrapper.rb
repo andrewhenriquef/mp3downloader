@@ -14,7 +14,7 @@ class YoutubeDlWrapper
   end
 
   def file_name
-    @file_name ||= `#{YOUTUBE_DL} --get-title #{youtube_url}`.strip.gsub('/', '_') + '.mp3'
+    @file_name ||= `#{YOUTUBE_DL} --get-title #{youtube_url}`.strip.gsub(/(\||\\|\/)/, '_') + '.mp3'
   end
 
   def file_path
