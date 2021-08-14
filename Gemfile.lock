@@ -88,6 +88,7 @@ GEM
     ffi (1.15.3)
     globalid (0.5.1)
       activesupport (>= 5.0)
+    honeybadger (4.9.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -207,6 +208,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1)
   bootsnap (>= 1.4.4)
   byebug
+  honeybadger (~> 4.0)
   jbuilder (~> 2.7)
   listen (~> 3.3)
   pg (~> 1.1)
