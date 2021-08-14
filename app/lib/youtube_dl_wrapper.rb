@@ -14,7 +14,7 @@ class YoutubeDlWrapper
   end
 
   def file_name
-    @file_name ||= `#{YOUTUBE_DL} --get-title #{youtube_url}`.strip.gsub(/(\||\\|\/)/, '_') + '.mp3'
+    @file_name ||= get_file_name
   end
 
   def file_path
@@ -24,6 +24,16 @@ class YoutubeDlWrapper
   private
 
   attr_reader :youtube_url
+
+  def get_file_name
+    file_title_name = `#{YOUTUBE_DL} --get-title #{youtube_url}`
+
+    formatted_file_name = file_title_name.strip
+                                         .gsub(/(\||\\|\/)/, '_')
+                                         .gsub(/:/, ' -')
+
+    formatted_file_name + '.mp3'
+  end
 
   def download_mp3!
     `#{YOUTUBE_DL} #{audio_configurations} #{output} #{youtube_url}`
